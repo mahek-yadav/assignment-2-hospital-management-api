@@ -13,7 +13,6 @@ const app = express();
 
 connectDB();
 
-// CORS
 app.use(cors({
     origin: [
         "http://localhost:3000",
@@ -25,7 +24,6 @@ app.use(cors({
 
 app.use(express.json());
 
-// Session
 app.use(
     session({
         secret: process.env.SESSION_SECRET || "hospital-secret",
@@ -34,24 +32,20 @@ app.use(
     })
 );
 
-// Passport
 app.use(passport.initialize());
 app.use(passport.session());
 
 require("./config/passport")(passport);
 
-// Home route
 app.get("/", (req, res) => {
     res.json({
         message: "Hospital API is running"
     });
 });
 
-// Routes
 app.use("/auth", authRoutes);
 app.use("/hospitals", hospitalRoutes);
 
-// Port
 const PORT = process.env.PORT || 4000;
 
 app.listen(PORT, () => {
